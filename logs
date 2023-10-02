@@ -1,0 +1,702 @@
+# COMMANDE !averto2
+
+@bot.command()
+async def averto2(ctx, member: discord.Member = None, *, reason: str = None):
+    # Obtenir la date et l'heure actuelles au format souhaité et au fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+    current_datetime = datetime.now(paris_timezone).strftime("%A %d %B %Y à %H:%M")
+
+    # Remplacer le nom du jour de la semaine en anglais par la traduction française
+    for day_en, day_fr in jours_de_la_semaine_fr.items():
+        current_datetime = current_datetime.replace(day_en, day_fr)
+
+    # Remplacer le nom du mois en anglais par la traduction française
+    for month_en, month_fr in mois_fr.items():
+        current_datetime = current_datetime.replace(month_en, month_fr)
+
+    # Liste des IDs de rôles requis pour exécuter la commande
+    roles_requis_ids = [1144691704809660506, 1144692216212754452, 1144692338443157555, 1144691706869072065]  # Ajout des IDs réels des rôles
+
+    # Vérifier si l'utilisateur possède l'un des rôles requis
+    possede_role_requis = any(role.id in roles_requis_ids for role in ctx.author.roles)
+    if not possede_role_requis:
+        await ctx.send("🚫 Vous n'avez pas la permission d'exécuter cette commande.")
+        return
+
+    # Vérifier si un utilisateur a été mentionné
+    if member is None:
+        await ctx.send("⚠️ Veuillez mentionner un utilisateur.")
+        return
+
+    # Vérifier si la raison a été spécifiée
+    if reason is None or reason.strip() == "":
+        await ctx.send("⚠️ Veuillez spécifier une raison pour l'avertissement.")
+        return
+
+    # Récupérer l'icône du serveur
+    server_icon_url = ctx.guild.icon.url
+
+    # Création de l'embed
+    embed = discord.Embed(
+        title="⛔️ Avertissement de niveau 2 ⛔️",
+        description=f"🛑 **Avertissement pour {member.mention}** 🛑",
+        color=discord.Color.orange()
+    )
+
+    # Ajout du thumbnail (l'icône de l'utilisateur)
+    if member.avatar:
+        embed.set_thumbnail(url=member.avatar.url)
+
+    # Ajout de champs à l'embed
+    embed.add_field(name="📋 Raison", value=reason)  # Utilisation de la raison spécifiée par l'utilisateur
+    embed.add_field(name="💡 Donné par", value=ctx.author.mention)
+    embed.add_field(name="⏰ Date et Heure", value=current_datetime)
+
+    # Ajout du rôle ajouté
+    role_id = 1145145385879355564  # ID du rôle
+    role = discord.utils.get(ctx.guild.roles, id=role_id)
+    if role:
+        embed.add_field(name="👥 Rôle ajouté", value=role.mention)
+
+    # Ajout du footer avec l'icône du serveur
+    embed.set_footer(text="Ls Tuning", icon_url=server_icon_url)
+
+    # Envoi de l'embed
+    message = await ctx.send(embed=embed)
+
+    # Récupération du canal spécifique
+    canal_specifique_id = 1144696836825829417  # ID du canal spécifique
+    canal_specifique = bot.get_channel(canal_specifique_id)
+    
+    # Envoi de l'embed dans le canal spécifique s'il existe
+    if canal_specifique:
+        await canal_specifique.send(embed=embed)
+
+    # Attribution du rôle spécifique à l'utilisateur
+    role_id = 1145145385879355564  # ID du rôle
+    role = discord.utils.get(ctx.guild.roles, id=role_id)
+    if role:
+        await member.add_roles(role)
+
+    # Supprimer la commande après son envoi
+    await ctx.message.delete()
+
+# COMMANDE !averto3
+
+@bot.command()
+async def averto3(ctx, member: discord.Member = None, *, reason: str = None):
+    # Obtenir la date et l'heure actuelles au format souhaité et au fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+    current_datetime = datetime.now(paris_timezone).strftime("%A %d %B %Y à %H:%M")
+
+    # Remplacer le nom du jour de la semaine en anglais par la traduction française
+    for day_en, day_fr in jours_de_la_semaine_fr.items():
+        current_datetime = current_datetime.replace(day_en, day_fr)
+
+    # Remplacer le nom du mois en anglais par la traduction française
+    for month_en, month_fr in mois_fr.items():
+        current_datetime = current_datetime.replace(month_en, month_fr)
+
+    # Liste des IDs de rôles requis pour exécuter la commande
+    roles_requis_ids = [1144691704809660506, 1144692216212754452, 1144692338443157555, 1144691706869072065]  # Ajout des IDs réels des rôles
+
+    # Vérifier si l'utilisateur possède l'un des rôles requis
+    possede_role_requis = any(role.id in roles_requis_ids for role in ctx.author.roles)
+    if not possede_role_requis:
+        await ctx.send("🚫 Vous n'avez pas la permission d'exécuter cette commande.")
+        return
+
+    # Vérifier si un utilisateur a été mentionné
+    if member is None:
+        await ctx.send("⚠️ Veuillez mentionner un utilisateur.")
+        return
+
+    # Vérifier si la raison a été spécifiée
+    if reason is None or reason.strip() == "":
+        await ctx.send("⚠️ Veuillez spécifier une raison pour l'avertissement.")
+        return
+
+    # Récupérer l'icône du serveur
+    server_icon_url = ctx.guild.icon.url
+
+    # Création de l'embed
+    embed = discord.Embed(
+        title="⛔️ Avertissement de niveau 3 ⛔️",
+        description=f"🛑 **Avertissement pour {member.mention}** 🛑",
+        color=discord.Color.red()
+    )
+
+    # Ajout du thumbnail (l'icône de l'utilisateur)
+    if member.avatar:
+        embed.set_thumbnail(url=member.avatar.url)
+
+    # Ajout de champs à l'embed
+    embed.add_field(name="📋 Raison", value=reason)  # Utilisation de la raison spécifiée par l'utilisateur
+    embed.add_field(name="💡 Donné par", value=ctx.author.mention)
+    embed.add_field(name="⏰ Date et Heure", value=current_datetime)
+
+    # Ajout du rôle ajouté
+    role_id = 1145145411779186731  # ID du rôle
+    role = discord.utils.get(ctx.guild.roles, id=role_id)
+    if role:
+        embed.add_field(name="👥 Rôle ajouté", value=role.mention)
+
+    # Ajout du footer avec l'icône du serveur
+    embed.set_footer(text="Ls Tuning", icon_url=server_icon_url)
+
+    # Envoi de l'embed
+    message = await ctx.send(embed=embed)
+
+    # Récupération du canal spécifique
+    canal_specifique_id = 1144696836825829417  # ID du canal spécifique
+    canal_specifique = bot.get_channel(canal_specifique_id)
+    
+    # Envoi de l'embed dans le canal spécifique s'il existe
+    if canal_specifique:
+        await canal_specifique.send(embed=embed)
+
+    # Attribution du rôle spécifique à l'utilisateur
+    role_id = 1145145411779186731  # ID du rôle
+    role = discord.utils.get(ctx.guild.roles, id=role_id)
+    if role:
+        await member.add_roles(role)
+
+    # Supprimer la commande après son envoi
+    await ctx.message.delete()
+
+
+# COMMANDE !verif
+
+@bot.command()
+async def suppreact(ctx):
+    # Supprimez la commande !suppreact
+    await ctx.message.delete()
+
+    async with ctx.typing():  # Indiquez que le bot est en train d'écrire
+        async for message in ctx.channel.history(limit=None):
+            # Vérifiez si le message a des réactions en forme de croix rouge ajoutées par le bot
+            for reaction in message.reactions:
+                if str(reaction.emoji) == "❌" and reaction.me:
+                    await reaction.remove(bot.user)
+
+    await ctx.send("Toutes les réactions ❌ ont été supprimées.")
+
+@bot.command()
+async def verif(ctx):
+    # Supprimez la commande !verif
+    await ctx.message.delete()
+
+    async with ctx.typing():  # Indiquez que le bot est en train d'écrire
+        error_count = 0  # Variable pour suivre le nombre d'erreurs trouvées
+
+        async for message in ctx.channel.history(limit=None):
+            # Fonction pour vérifier si une chaîne contient des espaces entre les chiffres
+            def has_spaces_between_digits(s):
+                import re
+                return re.search(r'\d\s+\d', s) is not None
+
+            # Fonction pour vérifier si une chaîne contient des symboles non autorisés
+            def has_invalid_symbols(s):
+                import re
+                return re.search(r'[^0-9\s]', s) is not None
+
+            # Ignorer les messages qui ne sont pas des montants
+            if not any(char.isdigit() for char in message.content):
+                continue
+
+            # Ignorer les messages contenant des mentions d'utilisateurs
+            if message.mentions:
+                continue
+
+            if has_spaces_between_digits(message.content) or has_invalid_symbols(message.content):
+                # Incrémente le compteur d'erreurs
+                error_count += 1
+
+                # Créez un nouvel embed pour chaque erreur numérotée
+                error_embed = discord.Embed(
+                    title=f"Erreur #{error_count} dans le Montant",
+                    color=discord.Color.red()
+                )
+                error_embed.description = f"❌ [Cliquez ici pour accéder à l'erreur]({message.jump_url})"
+                await message.add_reaction("❌")
+
+                # Ajoute le logo du serveur à l'icône du footer
+                error_embed.set_footer(text="By Icalea's Bot", icon_url=ctx.guild.icon.url)
+
+                # Envoyez l'embed d'erreur numéroté
+                await ctx.send(embed=error_embed)
+            else:
+                # Si le message n'a pas d'erreurs, vérifiez s'il a déjà la réaction croix rouge
+                for reaction in message.reactions:
+                    if str(reaction.emoji) == "❌":
+                        # Supprimez la réaction croix rouge
+                        await reaction.remove(bot.user)
+
+        # Envoyez un message de validation global si aucune erreur n'a été trouvée
+        if error_count == 0:
+            success_embed = discord.Embed(
+                title="Tout est validé ! ✅🎉",
+                color=discord.Color.green()
+            )
+
+            # Ajoute quelques emojis pour le plaisir
+            success_embed.set_image(url="https://i.imgur.com/your_image_url_here.png")
+
+            # Ajoute le logo du serveur à l'icône de l'embed de succès
+            success_embed.set_thumbnail(url=ctx.guild.icon.url)
+
+            # Ajoute le logo du serveur au footer
+            success_embed.set_footer(text="By Icalea's Bot", icon_url=ctx.guild.icon.url)
+
+            await ctx.send(embed=success_embed)
+
+
+
+# Commande personnalisée pour le salaire
+@bot.command()
+async def salaire(ctx, argument1, argument2):
+    # Vérifie si l'utilisateur a le rôle autorisé
+    role = discord.utils.get(ctx.author.roles, id=role_id_autorise)
+    
+    if role is not None:
+        # Vérifie si les arguments sont présents
+        if argument1 is None or argument2 is None:
+            await ctx.send("Veuillez fournir tous les arguments nécessaires : `!salaire @utilisateur Montant`")
+        else:
+            # Les arguments sont présents, envoie l'embed dans le canal spécifié
+            await envoyer_embed_2(ctx, argument1, argument2)
+            # Envoie le message en gras avec des emojis imposants dans le canal de la commande
+            await envoyer_message_paye(ctx, argument1)
+            await ctx.message.delete()  # Supprime la commande
+    else:
+        await ctx.send("Vous n'avez pas la permission d'utiliser cette commande.")
+
+@bot.command()
+async def vire(ctx, member: discord.Member = None):
+    
+    # Vérifie si l'utilisateur a le rôle autorisé
+    role = discord.utils.get(ctx.author.roles, id=role_id_autorise)
+    if role is None:
+        await ctx.send("Vous n'avez pas le rôle autorisé pour exécuter cette commande.")
+        return
+
+    # Crée un objet de fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+
+    # Obtient la date et l'heure actuelles en Europe/Paris
+    paris_now = datetime.now(paris_timezone)
+
+    # Liste des 9 ID de rôles à supprimer
+    roles_to_remove_ids = [
+        1145107760485244970,  # ROLE_ID_1
+        1144691712632049815,  # ROLE_ID_2
+        1144691710669095012,  # ROLE_ID_3
+        1144691708655829053,  # ROLE_ID_4
+        1144691706869072065,  # ROLE_ID_5
+        1144692338443157555,  # ROLE_ID_6
+        1144692216212754452,  # ROLE_ID_7
+        1144691704809660506,  # ROLE_ID_8
+        1145145376828035214,  # ROLE_ID_9
+        1145145385879355564,  # ROLE_ID_10
+        1145145411779186731,  # ROLE_ID_11
+        1145115765041799220   # ROLE_ID_12
+    ]
+
+    if member is None:
+        await ctx.send("Veuillez mentionner un utilisateur.")
+        return
+
+    # Récupère les rôles spécifiés par leur ID
+    roles_to_remove = [role for role in member.roles if role.id in roles_to_remove_ids]
+
+    # Vérifie si l'utilisateur possède les rôles spécifiés
+    if roles_to_remove:
+        # Supprime les rôles spécifiés
+        await member.remove_roles(*roles_to_remove)
+
+        # Crée un emoji de licenciement
+        fire_emoji = "🔥"
+
+        # Crée un embed de licenciement pour le canal actuel
+        embed = discord.Embed(
+            title=f"{fire_emoji} Fiche de Licenciement {fire_emoji}",
+            description=f"{member.mention} a été licencié du Ls Tuning.",
+            color=discord.Color.red()
+        )
+      
+        # Vérifie si l'avatar est disponible
+        if member.avatar:
+            embed.set_thumbnail(url=member.avatar.url)
+          
+        embed.add_field(name="Nom de l'employé", value=member.display_name, inline=True)
+        embed.add_field(name="Licencié par", value=ctx.author.mention, inline=True)
+        embed.add_field(name="Date et heure du licenciement", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+        embed.add_field(name="Rôles supprimés", value=', '.join([role.mention for role in roles_to_remove]), inline=False)
+        embed.set_footer(text="Ls Tuning", icon_url=ctx.guild.icon.url) 
+
+        # Envoie l'embed dans le même canal
+        message = await ctx.send(embed=embed)
+
+        # Récupère le canal avec l'ID spécifique
+        specific_channel_id = 1144704482232508466
+        specific_channel = bot.get_channel(specific_channel_id)
+
+        if specific_channel:
+            # Crée un emoji de licenciement
+            hammer_emoji = "🔨"
+
+            # Crée un embed de licenciement pour le canal spécifique
+            specific_embed = discord.Embed(
+                title=f"{hammer_emoji} Fiche de Licenciement {hammer_emoji}",
+                description=f"{member.mention} a été licencié du Ls Tuning.",
+                color=discord.Color.red()
+            )
+          
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                specific_embed.set_thumbnail(url=member.avatar.url)
+
+            specific_embed.add_field(name="Nom de l'employé", value=member.display_name, inline=True)
+            specific_embed.add_field(name="Licencié par", value=ctx.author.mention, inline=True)
+            specific_embed.add_field(name="Date et heure du licenciement", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            specific_embed.add_field(name="Rôles supprimés", value=', '.join([role.mention for role in roles_to_remove]), inline=False)
+            specific_embed.set_footer(text="Ls Tuning", icon_url=ctx.guild.icon.url) 
+
+            # Envoie l'embed dans le canal spécifique
+            await specific_channel.send(embed=specific_embed)
+        else:
+            print(f"Canal avec l'ID {specific_channel_id} non trouvé.")
+
+        # Supprime la commande
+        await ctx.message.delete()
+    else:
+        await ctx.send(f"{member.mention} ne possède pas les rôles spécifiés.")
+
+# !mecano
+
+@bot.command()
+async def mecano(ctx, member: discord.Member = None):
+    # Vérifie si un membre est mentionné
+    if member is None:
+        await ctx.send("Veuillez mentionner un utilisateur.")
+        return
+
+    # Crée un objet de fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+
+    # Obtient la date et l'heure actuelles en Europe/Paris
+    paris_now = datetime.now(paris_timezone)
+
+    # Rôle à supprimer
+    role_id_a_supprimer = 1144691712632049815  # ID du rôle à supprimer
+    role_id_a_ajouter = 1144691710669095012  # ID du rôle à ajouter
+
+    # Vérifie si l'utilisateur a le rôle autorisé
+    role_id_autorise = 1144692338443157555  # ID du rôle autorisé
+    role = discord.utils.get(ctx.author.roles, id=role_id_autorise)
+
+    # Vérifie si l'utilisateur mentionné possède le rôle à supprimer
+    if discord.utils.get(member.roles, id=role_id_a_supprimer):
+        if role:
+            # Supprime le rôle spécifié
+            role_a_supprimer = discord.utils.get(ctx.guild.roles, id=role_id_a_supprimer)
+            await member.remove_roles(role_a_supprimer)
+
+            # Ajoute le rôle spécifié
+            role_a_ajouter = discord.utils.get(ctx.guild.roles, id=role_id_a_ajouter)
+            await member.add_roles(role_a_ajouter)
+
+            # Calcul du nouveau pourcentage de salaire
+            pourcentage_salaire = 60  # Remplacez par le pourcentage approprié
+
+
+            # Crée un embed de fiche de promotion
+            embed = discord.Embed(
+                title="Fiche de Promotion 🚀",
+                description=f"🔧 Promotion de {member.mention} 🔧",
+                color=discord.Color.gold()
+            )
+          
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                embed.set_thumbnail(url=member.avatar.url)
+              
+            embed.add_field(name="Promu par 📣", value=ctx.author.mention, inline=True)
+            embed.add_field(name="Date de la promotion 🗓️", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="Nouveau grade 🆙", value=role_a_ajouter.mention, inline=False)
+            embed.add_field(name="Nouveau pourcentage de salaire 💰", value=f"{pourcentage_salaire}%", inline=False)
+            embed.set_footer(text="Ls Tuning 🏁", icon_url=ctx.guild.icon.url)
+
+            # Envoie l'embed dans le canal actuel
+            await ctx.send(embed=embed)
+
+            # Crée un deuxième embed de promotion pour le canal spécifique
+            specific_embed = discord.Embed(
+                title="Fiche de Promotion 🚀",
+                description=f"🔧 Promotion de {member.mention} 🔧",
+                color=discord.Color.gold()
+            )
+          
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                specific_embed.set_thumbnail(url=member.avatar.url)
+
+            specific_embed.add_field(name="Promu par 📣", value=ctx.author.mention, inline=True)
+            specific_embed.add_field(name="Date de la promotion 🗓️", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            specific_embed.add_field(name="Nouveau grade 🆙", value=role_a_ajouter.mention, inline=False)
+            specific_embed.add_field(name="Nouveau pourcentage de salaire 💰", value=f"{pourcentage_salaire}%", inline=False)
+            specific_embed.set_footer(text="Ls Tuning 🏁", icon_url=ctx.guild.icon.url)
+
+            # Récupère le canal avec l'ID spécifique et envoie le deuxième embed
+            specific_channel_id = 1144704482232508466
+            specific_channel = bot.get_channel(specific_channel_id)
+            if specific_channel:
+                await specific_channel.send(embed=specific_embed)
+            else:
+                print(f"Canal avec l'ID {specific_channel_id} non trouvé.")
+
+            # Renomme le canal actuel
+            await ctx.channel.edit(name=f"「🔧」{member.display_name}")
+
+            # Supprime la commande
+            await ctx.message.delete()
+        else:
+            await ctx.send("Vous n'avez pas l'autorisation d'utiliser cette commande.")
+    else:
+        await ctx.send(f"{member.mention} ne possède pas le rôle à supprimer.")
+
+# !mecanoc
+
+@bot.command()
+async def mecanoc(ctx, member: discord.Member = None):
+    # Vérifie si un membre est mentionné
+    if member is None:
+        await ctx.send("Veuillez mentionner un utilisateur.")
+        return
+
+    # Crée un objet de fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+
+    # Obtient la date et l'heure actuelles en Europe/Paris
+    paris_now = datetime.now(paris_timezone)
+
+    # Rôle à supprimer
+    role_id_a_supprimer = 1144691710669095012  # ID du rôle à supprimer
+    role_id_a_ajouter = 1144691708655829053  # ID du rôle à ajouter
+
+    # Vérifie si l'utilisateur a le rôle autorisé
+    role_id_autorise = 1144692338443157555  # ID du rôle autorisé
+    role = discord.utils.get(ctx.author.roles, id=role_id_autorise)
+
+    # Vérifie si l'utilisateur mentionné possède le rôle à supprimer
+    if discord.utils.get(member.roles, id=role_id_a_supprimer):
+        if role:
+            # Supprime le rôle spécifié
+            role_a_supprimer = discord.utils.get(ctx.guild.roles, id=role_id_a_supprimer)
+            await member.remove_roles(role_a_supprimer)
+
+            # Ajoute le rôle spécifié
+            role_a_ajouter = discord.utils.get(ctx.guild.roles, id=role_id_a_ajouter)
+            await member.add_roles(role_a_ajouter)
+
+            # Calcul du nouveau pourcentage de salaire
+            pourcentage_salaire = 70  # Remplacez par le pourcentage approprié
+
+
+            # Crée un embed de fiche de promotion
+            embed = discord.Embed(
+                title="Fiche de Promotion 🚀",
+                description=f"🔧 Promotion de {member.mention} 🔧",
+                color=discord.Color.gold()
+            )
+            
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                embed.set_thumbnail(url=member.avatar.url)
+              
+            embed.add_field(name="Promu par 📣", value=ctx.author.mention, inline=True)
+            embed.add_field(name="Date de la promotion 🗓️", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="Nouveau grade 🆙", value=role_a_ajouter.mention, inline=False)
+            embed.add_field(name="Nouveau pourcentage de salaire 💰", value=f"{pourcentage_salaire}%", inline=False)
+            embed.set_footer(text="Ls Tuning 🏁", icon_url=ctx.guild.icon.url)
+
+            # Envoie l'embed dans le canal actuel
+            await ctx.send(embed=embed)
+
+            # Crée un deuxième embed de promotion pour le canal spécifique
+            specific_embed = discord.Embed(
+                title="Fiche de Promotion 🚀",
+                description=f"🔧 Promotion de {member.mention} 🔧",
+                color=discord.Color.gold()
+            )
+          
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                specific_embed.set_thumbnail(url=member.avatar.url)
+              
+            specific_embed.add_field(name="Promu par 📣", value=ctx.author.mention, inline=True)
+            specific_embed.add_field(name="Date de la promotion 🗓️", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            specific_embed.add_field(name="Nouveau grade 🆙", value=role_a_ajouter.mention, inline=False)
+            specific_embed.add_field(name="Nouveau pourcentage de salaire 💰", value=f"{pourcentage_salaire}%", inline=False)
+            specific_embed.set_footer(text="Ls Tuning 🏁", icon_url=ctx.guild.icon.url)
+
+            # Récupère le canal avec l'ID spécifique et envoie le deuxième embed
+            specific_channel_id = 1144704482232508466
+            specific_channel = bot.get_channel(specific_channel_id)
+            if specific_channel:
+                await specific_channel.send(embed=specific_embed)
+            else:
+                print(f"Canal avec l'ID {specific_channel_id} non trouvé.")
+
+            # Renomme le canal actuel
+            await ctx.channel.edit(name=f"「🔨」{member.display_name}")
+
+            # Supprime la commande
+            await ctx.message.delete()
+        else:
+            await ctx.send("Vous n'avez pas l'autorisation d'utiliser cette commande.")
+    else:
+        await ctx.send(f"{member.mention} ne possède pas le rôle à supprimer.")
+
+# !chef
+
+@bot.command()
+async def chef(ctx, member: discord.Member = None):
+    # Vérifie si un membre est mentionné
+    if member is None:
+        await ctx.send("Veuillez mentionner un utilisateur.")
+        return
+
+    # Crée un objet de fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+
+    # Obtient la date et l'heure actuelles en Europe/Paris
+    paris_now = datetime.now(paris_timezone)
+
+    # Rôle à supprimer
+    role_id_a_supprimer = 1144691708655829053  # ID du rôle à supprimer
+    role_ids_a_ajouter = [1144691706869072065, 1145115765041799220]
+
+    # Crée une liste pour stocker les mentions de rôles
+    mentions_roles = []
+
+    # Vérifie si l'utilisateur a le rôle autorisé
+    role_id_autorise = 1144692338443157555  # ID du rôle autorisé
+    role = discord.utils.get(ctx.author.roles, id=role_id_autorise)
+
+    # Vérifie si l'utilisateur mentionné possède le rôle à supprimer
+    if discord.utils.get(member.roles, id=role_id_a_supprimer):
+        if role:
+            # Supprime le rôle spécifié
+            role_a_supprimer = discord.utils.get(ctx.guild.roles, id=role_id_a_supprimer)
+            await member.remove_roles(role_a_supprimer)
+
+            # Ajoute les mentions des rôles spécifiés
+            for role_id in role_ids_a_ajouter:
+                role_a_ajouter = discord.utils.get(ctx.guild.roles, id=role_id)
+                if role_a_ajouter:
+                    mentions_roles.append(role_a_ajouter.mention)
+                    await member.add_roles(role_a_ajouter)
+
+            # Combine les mentions des rôles en une seule chaîne de caractères
+            roles_mentions_str = ', '.join(mentions_roles)
+
+            # Calcul du nouveau pourcentage de salaire
+            pourcentage_salaire = 80  # Remplacez par le pourcentage approprié
+
+
+            # Crée un embed de fiche de promotion
+            embed = discord.Embed(
+                title="Fiche de Promotion 🚀",
+                description=f"🔧 Promotion de {member.mention} 🔧",
+                color=discord.Color.gold()
+            )
+          
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                embed.set_thumbnail(url=member.avatar.url)
+              
+            embed.add_field(name="Promu par 📣", value=ctx.author.mention, inline=True)
+            embed.add_field(name="Date de la promotion 🗓️", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="Nouveau grade 🆙", value=roles_mentions_str, inline=False)
+            embed.add_field(name="Nouveau pourcentage de salaire 💰", value=f"{pourcentage_salaire}%", inline=False)
+            embed.set_footer(text="Ls Tuning 🏁", icon_url=ctx.guild.icon.url)
+
+            # Envoie l'embed dans le canal actuel
+            await ctx.send(embed=embed)
+
+            # Crée un deuxième embed de promotion pour le canal spécifique
+            specific_embed = discord.Embed(
+                title="Fiche de Promotion 🚀",
+                description=f"🔧 Promotion de {member.mention} 🔧",
+                color=discord.Color.gold()
+            )
+          
+            # Vérifie si l'avatar est disponible
+            if member.avatar:
+                specific_embed.set_thumbnail(url=member.avatar.url)
+              
+            specific_embed.add_field(name="Promu par 📣", value=ctx.author.mention, inline=True)
+            specific_embed.add_field(name="Date de la promotion 🗓️", value=paris_now.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            specific_embed.add_field(name="Nouveau grade 🆙", value=roles_mentions_str, inline=False)
+            specific_embed.add_field(name="Nouveau pourcentage de salaire 💰", value=f"{pourcentage_salaire}%", inline=False)
+            specific_embed.set_footer(text="Ls Tuning 🏁", icon_url=ctx.guild.icon.url)
+
+            # Récupère le canal avec l'ID spécifique et envoie le deuxième embed
+            specific_channel_id = 1144704482232508466
+            specific_channel = bot.get_channel(specific_channel_id)
+            if specific_channel:
+                await specific_channel.send(embed=specific_embed)
+            else:
+                print(f"Canal avec l'ID {specific_channel_id} non trouvé.")
+
+            # Renomme le canal actuel
+            await ctx.channel.edit(name=f"「🪛」{member.display_name}")
+
+            # Supprime la commande
+            await ctx.message.delete()
+        else:
+            await ctx.send("Vous n'avez pas l'autorisation d'utiliser cette commande.")
+    else:
+        await ctx.send(f"{member.mention} ne possède pas le rôle à supprimer.")
+
+
+# Commande pour renommer le canal textuel
+@bot.command()
+async def rename(ctx, argument1):
+    # Exécute la fonction pour renommer le canal avec l'argument1
+    await rename_canal(ctx, argument1)
+
+# Commande pour créer un nouveau canal, le renommer et ajouter des rôles
+@bot.command()
+async def new(ctx, utilisateur: discord.Member = None):
+    if utilisateur is None:
+        await ctx.send("Veuillez mentionner un utilisateur : `!new @utilisateur`")
+        return
+
+    # Crée un objet de fuseau horaire Europe/Paris
+    paris_timezone = pytz.timezone('Europe/Paris')
+
+    # Obtient la date et l'heure actuelles en Europe/Paris
+    paris_now = datetime.now(paris_timezone)
+    
+    # Exécute la fonction pour créer le canal, le renommer et ajouter des rôles
+    await creer_canal_et_roles(ctx, utilisateur)
+    
+    # Supprime la commande
+    await ctx.message.delete()
+
+# Personnalisez le message d'erreur pour les arguments manquants de la commande salaire
+@salaire.error
+async def salaire_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Veuillez fournir tous les arguments nécessaires : `!salaire @utilisateur Montant`")
+
+# Personnalisez le message d'erreur pour les arguments manquants de la commande rename
+@rename.error
+async def rename_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Veuillez fournir un nom pour le canal : `!rename [Nom]`")
+
+# Lancez le bot
+bot.run(bot_token)
